@@ -1,0 +1,15 @@
+/configs/config.py
+
+/data/ce_data/target_file.jsonl
+/data/ce_data_exam/dev.json
+/data/ce_data_exam/test.json
+/data/ce_data_exam/train.json
+/data/ce_data_fix/dev.json
+/data/ce_data_fix/test.json
+/data/ce_data_fix/train.json
+/data/ce_data_for_temp/dev.json
+/data/ce_data_for_temp/test.json
+/data/ce_data_for_temp/train.json
+/data/ce_data_split/dev.json
+/data/ce_data_split/test.json
+/data/ce_data_split/train.json
