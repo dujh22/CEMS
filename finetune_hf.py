@@ -2,10 +2,10 @@
 # 设置文件编码为utf-8
 
 import os # 导入os模块，用于操作系统功能，如文件路径
-os.environ['CUDA_VISIBLE_DEVICES'] = "0" # 设置CUDA_VISIBLE_DEVICES环境变量，指定使用的GPU编号
+os.environ['CUDA_VISIBLE_DEVICES'] = "3" # 设置CUDA_VISIBLE_DEVICES环境变量，指定使用的GPU编号
 
-import subprocess
-subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
+# import subprocess
+# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
 
 # 导入部分------------------------------------------------------------------
 
@@ -484,11 +484,11 @@ def compute_metrics(eval_preds: EvalPrediction, tokenizer: PreTrainedTokenizer):
         # 初始化Rouge评估器
         rouge = Rouge()
         # 计算Rouge得分
-        # 原来是：scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
-        try:
-            scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
-        except: # 如果出现异常，跳过当前数据点
-            continue
+        scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
+        # try:
+        #     scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
+        # except: # 如果出现异常，跳过当前数据点
+        #     continue
         # 将得分添加到度量字典
         for k, v in scores[0].items():
             metrics_dct[k].append(round(v['f'] * 100, 4))

@@ -2,10 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os # 导入os模块，用于操作系统功能，如文件路径
-os.environ['CUDA_VISIBLE_DEVICES'] = "0" # 设置CUDA_VISIBLE_DEVICES环境变量，指定使用的GPU编号
-
-import subprocess
-subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
+os.environ['CUDA_VISIBLE_DEVICES'] = "5" # 设置CUDA_VISIBLE_DEVICES环境变量，指定使用的GPU编号
 
 # -------------------------------------------------
 
@@ -87,7 +84,7 @@ def load_model_and_tokenizer(model_dir: Union[str, Path]) -> tuple[ModelType, To
     return model, tokenizer # 返回模型和分词器
 
 
-model_dir = "/workspace/dujh22/ce_finetune/output_remote_single/checkpoint-3000/"
+model_dir = "/workspace/dujh22/ce_finetune/output_single/checkpoint-3000/"
 model, tokenizer = load_model_and_tokenizer(model_dir) # 加载模型和分词器
     
 # -----------------------------------------------------------------------------------
@@ -140,7 +137,7 @@ def process_json_concurrently(input_file, output_file):
 
     # 使用tqdm创建进度条
     with tqdm(total=total, desc="正在处理") as pbar:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
             futures = [executor.submit(process_entry, data) for data in data_list]
             results = []
             for future in concurrent.futures.as_completed(futures):
@@ -170,6 +167,7 @@ def process_json_concurrently(input_file, output_file):
 
         # 输出存在中文回复的response
         for result in results:
+            # outfile.write(f"{result}\n")
             if result[-1]['content'] == "Error":
                 continue
             elif result[-1]['role'] == 'assistant':
@@ -179,9 +177,9 @@ def process_json_concurrently(input_file, output_file):
           
 def main():
     # 注意ce_data_for_temp是小数据集测试本脚本的可用性
-    input_dir = '/workspace/dujh22/ce_finetune/data/ce_data_for_temp'
-    # input_dir = 'F://code//github//ce_finetune//data//ce_data_fix'
-    output_dir = '/workspace/dujh22/ce_finetune/data/ce_data_exam_temp'
+    # input_dir = '/workspace/dujh22/ce_finetune/data/ce_data_for_temp'
+    input_dir = '/workspace/dujh22/ce_finetune/data/ce_data_fix'
+    output_dir = '/workspace/dujh22/ce_finetune/data/ce_data_exam'
 
     # 确保输出目录存在
     if not os.path.exists(output_dir):

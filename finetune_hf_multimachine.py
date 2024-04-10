@@ -1,37 +1,32 @@
 # -*- coding: utf-8 -*-
 # 设置文件编码为utf-8
 
-import subprocess
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
-# subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
+# import subprocess
+# # subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
+# # subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"])
 
-def install_dependencies(retries=20):
-    """尝试安装依赖，最多重试 retries 次"""
-    for attempt in range(1, retries + 1):
-        try:
-            subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"], check=True)
-            print(f"依赖安装成功，在第{attempt}次尝试后。")
-            return True  # 成功安装，退出函数
-        except subprocess.CalledProcessError:
-            print(f"尝试{attempt}次安装依赖失败，正在重试...")
+# def install_dependencies(retries=20):
+#     """尝试安装依赖，最多重试 retries 次"""
+#     for attempt in range(1, retries + 1):
+#         try:
+#             subprocess.run(["pip", "install", "-r", "/workspace/dujh22/ce_finetune/requirements.txt"], check=True)
+#             print(f"依赖安装成功，在第{attempt}次尝试后。")
+#             return True  # 成功安装，退出函数
+#         except subprocess.CalledProcessError:
+#             print(f"尝试{attempt}次安装依赖失败，正在重试...")
 
-    print("依赖安装多次尝试失败，脚本终止执行。")
-    return False  # 多次尝试后仍然失败
+#     print("依赖安装多次尝试失败，脚本终止执行。")
+#     return False  # 多次尝试后仍然失败
 
-# 调用函数尝试安装依赖
-if install_dependencies(retries=3):
-    print("继续执行后续操作...")
-    # 在这里添加您的后续操作代码
-else:
-    print("由于依赖安装失败，后续操作不会执行。")
+# # 调用函数尝试安装依赖
+# if install_dependencies(retries=3):
+#     print("继续执行后续操作...")
+#     # 在这里添加您的后续操作代码
+# else:
+#     print("由于依赖安装失败，后续操作不会执行。")
 
-install_dependencies()
+# install_dependencies()
+
 # 导入部分------------------------------------------------------------------
 
 # 导入必要的库和模块
@@ -509,11 +504,11 @@ def compute_metrics(eval_preds: EvalPrediction, tokenizer: PreTrainedTokenizer):
         # 初始化Rouge评估器
         rouge = Rouge()
         # 计算Rouge得分
-        # 原来是：scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
-        try:
-            scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
-        except: # 如果出现异常，跳过当前数据点
-            continue
+        scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
+        # try:
+        #     scores = rouge.get_scores(' '.join(pred_tokens), ' '.join(label_tokens))
+        # except: # 如果出现异常，跳过当前数据点
+        #     continue
         # 将得分添加到度量字典
         for k, v in scores[0].items():
             metrics_dct[k].append(round(v['f'] * 100, 4))
